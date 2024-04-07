@@ -74,6 +74,10 @@ main {
         padding: 12px 24px;
         cursor: pointer;
 
+        &:disabled {
+          opacity: 0.8;
+        }
+
         &.btn-prymary {
           background-color: $prymary-color;
           color: white;
