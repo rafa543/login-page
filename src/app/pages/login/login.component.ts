@@ -10,6 +10,7 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -41,13 +42,24 @@ export class LoginComponent {
   }
 
   submit() {
-    console.log('teste');
     this.loginService
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
-        next: () => this.toastService.success('Login feito com sucesso'),
-        error: () =>
-          this.toastService.error('Erro inesperado! Tente novamente'),
+        next: (response) => {
+          console.log('Resposta da API:', response);
+          // Faça o processamento adicional da resposta aqui
+          this.toastService.success('Login feito com sucesso');
+          this.router.navigate(['/user']);
+        },
+        error: (error: HttpErrorResponse) => {
+          const errorMessage = error.error.message;
+          console.log('Error:', errorMessage);
+          if (error.status === 404) {
+            this.toastService.error('Usuário não foi encontrado');
+          } else {
+            this.toastService.error('Erro inesperado! Tente novamente');
+          }
+        },
       });
   }
 

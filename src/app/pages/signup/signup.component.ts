@@ -53,6 +53,12 @@ export class SignUpComponent {
   }
 
   submit() {
+    if (
+      this.signupForm.value.password != this.signupForm.value.passwordConfirm
+    ) {
+      this.toastService.error('Senhas são diferentes!');
+      return;
+    }
     this.loginService
       .signup(
         this.signupForm.value.name,
@@ -60,7 +66,10 @@ export class SignUpComponent {
         this.signupForm.value.password
       )
       .subscribe({
-        next: () => this.toastService.success('Login feito com sucesso'),
+        next: () => {
+          this.toastService.success('Login feito com sucesso');
+          this.router.navigate(['/login']);
+        },
         error: () =>
           this.toastService.error('Erro inesperado! Tente novamente'),
       });

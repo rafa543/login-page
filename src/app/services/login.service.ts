@@ -19,6 +19,7 @@ export class LoginService {
       })
       .pipe(
         tap((value) => {
+          console.log(value);
           sessionStorage.setItem('auth-token', value.token);
           sessionStorage.setItem('username', value.name);
         })
