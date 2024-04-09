@@ -41,6 +41,7 @@ export class LoginComponent {
   }
 
   submit() {
+    console.log('teste');
     this.loginService
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
